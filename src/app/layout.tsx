@@ -5,6 +5,7 @@ import Footer from "./components/Footer";
 import { Toaster } from "@/components/ui/toaster";
 import Providers from "./components/Providers";
 import { constructMetadata } from "@/lib/utils";
+import { AuthProvider } from "./AuthProvider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -19,7 +20,6 @@ const geistMono = localFont({
 
 export const metadata = constructMetadata()
 
-export const dynamic = 'force-dynamic';
 
 export default function RootLayout({
   children,
@@ -27,19 +27,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <Navbar />
-        <main className="flex flex-col min-h-[calc(100vh-3.5rem-1px)] grainy-light">
-          <div className="flex-1 flex flex-col h-full">
-            <Providers>{children}</Providers>
-          </div>
-          <Footer />
-        </main>
-        <Toaster />
-      </body>
-    </html>
+    <AuthProvider>
+      <html lang="en">
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
+          <Navbar />
+          <main className="flex flex-col min-h-[calc(100vh-3.5rem-1px)] grainy-light">
+            <div className="flex-1 flex flex-col h-full">
+              <Providers>{children}</Providers>
+            </div>
+            <Footer />
+          </main>
+          <Toaster />
+        </body>
+      </html>
+    </AuthProvider>
   );
 }

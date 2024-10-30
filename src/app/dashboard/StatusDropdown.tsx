@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation"
 const LABEL_MAP: Record<keyof typeof OrderStatus, string> = {
     awaiting_shipment: "Awaiting Shipment",
     fulfilled: "Fulfilled",
-    shipped: "Shipped"
+    shipped: "Shipped",
 }
 
 export default function StatusDropdown({
@@ -29,8 +29,8 @@ export default function StatusDropdown({
         onSuccess: () => {
             router.refresh();
         }
-
     })
+
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>

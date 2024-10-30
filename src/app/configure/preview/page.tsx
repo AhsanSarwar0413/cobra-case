@@ -1,7 +1,6 @@
 import { db } from "@/db";
 import { notFound } from "next/navigation";
 import DesignPreview from "./DesignPreview";
-import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
 export default async function PreviewPage({
     searchParams
@@ -11,8 +10,6 @@ export default async function PreviewPage({
     }
 }) {
     const { id } = searchParams;
-    const { getUser } = getKindeServerSession();
-    const user = await getUser();
 
     if (!id || typeof id !== "string") return notFound();
 
@@ -23,7 +20,7 @@ export default async function PreviewPage({
     if (!configuration) return notFound();
     return (
         <>
-            <DesignPreview configuration={configuration} user={user} />
+            <DesignPreview configuration={configuration} />
         </>
     )
 }
