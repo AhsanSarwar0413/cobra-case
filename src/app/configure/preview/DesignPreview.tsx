@@ -12,12 +12,14 @@ import Confetti from "react-dom-confetti";
 import { createCheckoutSession } from "./action";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
-import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
-import LoginModal from "@/app/components/LoginModal";
+import LoginModal from "@/app/components/LoginModal"
+import { KindeUser } from "@kinde-oss/kinde-auth-nextjs/types";
 export default function DesignPreview({
-    configuration
+    configuration,
+    user
 }: {
-    configuration: Configuration
+        configuration: Configuration
+        user: KindeUser<Record<string, string | null | undefined>>
 }) {
     const [showConfetti, setShowConfetti] = useState<boolean>(false);
     const { color, model, finish, material } = configuration;
@@ -26,7 +28,6 @@ export default function DesignPreview({
     const router = useRouter();
     const { toast } = useToast();
     const { id } = configuration;
-    const { user } = useKindeBrowserClient();
     const [isLoginModalOpen, setIsLoginModalOpen] = useState<boolean>(false);
 
     let totalPrice = BASE_PRICE;
@@ -57,6 +58,7 @@ export default function DesignPreview({
     });
 
     function handleCheckout() {
+        console.log("user is ", user);
         if (user) {
             //create payment session
             createPaymentSession({ configId: id });
@@ -76,9 +78,9 @@ export default function DesignPreview({
 
             <LoginModal isOpen={isLoginModalOpen} setIsOpen={setIsLoginModalOpen} />
 
-            <div className="mt-20 grid grid-cols-1 text-sm sm:grid-cols-12 sm:grid-rows-1 sm:gap-x-6 md:gap-x-8 lg:gap-x-12">
-                <div className="sm: col-span-4 md:col-span-3 md:row-span-2 md:row-end-2">
-                    <Phone imgSrc={configuration.croppedImageUrl!} className={cn(`bg-${tw}`)} />
+            <div className="mt-20 flex flex-col items-center md:grid text-sm sm:grid-cols-12 sm:grid-rows-1 sm:gap-x-6 md:gap-x-8 lg:gap-x-12">
+                <div className="md:col-span-4 lg:col-span-3 md:row-span-2 md:row-end-2">
+                    <Phone imgSrc={configuration.croppedImageUrl!} className={cn(`bg-${tw}`, "max-w-[150px] md:max-w-full")} />
                 </div>
                 <div className="mt-6 sm:col-span-9 sm:mt-0 md:row-end-1">
                     <h3 className="text-3xl font-bold tracking-tight text-gray-900">Your {modelLabel} Case</h3>

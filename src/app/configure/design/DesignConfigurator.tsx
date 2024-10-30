@@ -37,7 +37,7 @@ export default function DesignConfigurator({ configId, imageUrl, imageDimensions
     // border-rose-950
     const { toast } = useToast();
     const router = useRouter();
-    const { mutate: saveConfig } = useMutation({
+    const { mutate: saveConfig, isPending } = useMutation({
         mutationKey: ['save-config'],
         mutationFn: async (args: SaveConfigArgs) => {
             await Promise.all([saveConfiguration(), _saveConfig(args)])
@@ -308,13 +308,23 @@ export default function DesignConfigurator({ configId, imageUrl, imageDimensions
                             <p className="font-medium whitespace-nowrap">
                                 {formatPrice((BASE_PRICE + options.finish.price + options.material.price) / 100)}
                             </p>
-                            <Button onClick={() => saveConfig({
-                                configId,
-                                color: options.color.value,
-                                finish: options.finish.value,
-                                material: options.material.value,
-                                model: options.model.value,
-                            })} size="sm" className="w-full">Continue <ArrowRight className="size-4 w-4 ml-1.5 inline"></ArrowRight></Button>
+                            <Button
+                                onClick={() => saveConfig({
+                                    configId,
+                                    color: options.color.value,
+                                    finish: options.finish.value,
+                                    material: options.material.value,
+                                    model: options.model.value,
+                                })}
+                                size="sm"
+                                className="w-full"
+                                isLoading={isPending}
+                                disabled={isPending}
+                                loadingText="Saving"
+                            >
+                                Continue
+                                <ArrowRight className="size-4 w-4 ml-1.5 inline"></ArrowRight>
+                            </Button>
                         </div>
                     </div>
                 </div>
