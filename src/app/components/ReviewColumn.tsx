@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import { cn } from "@/lib/utils";
 import { HTMLAttributes, useEffect, useRef, useState } from "react";
 import Phone from "./Phone";
